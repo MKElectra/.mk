@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloating } from "@/components/layout/WhatsAppFloating";
 import { ToastProvider } from "@/components/ui/Toast";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "MK Electra | Software, Embedded, Mechanical & 3D Printing Solutions",
@@ -85,6 +86,7 @@ export default function RootLayout({
           <Footer />
           <WhatsAppFloating />
         </ToastProvider>
+        <Analytics />
       </body>
     </html>
   );
