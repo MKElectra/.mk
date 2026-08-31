@@ -2,90 +2,232 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, MessageSquare } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, MessageSquare, Sparkles, CheckCircle } from "lucide-react";
 import { COMPANY_INFO } from "@/data/company";
 import { getWhatsAppLink } from "@/lib/utils";
 
+const BADGES = ["Software", "Embedded & IoT", "Mechanical", "3D Printing", "Automation", "AI/ML"];
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
 export function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-navy-950 overflow-hidden">
-      {/* Subtle grid overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(249,115,22,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(249,115,22,0.04) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
+    <section className="relative overflow-hidden bg-white">
+      {/* Dot grid background */}
+      <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
 
-      {/* Glow orb */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-[120px] pointer-events-none" />
+      {/* Orange gradient blob */}
+      <div className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-brand-100 blur-[80px] opacity-60 pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-orange-50 blur-[80px] opacity-80 pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32 relative z-10 w-full">
-        <div className="max-w-4xl">
-          {/* Kicker */}
-          <div className="inline-flex items-center gap-2 mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-500" />
-            <span className="text-xs font-mono tracking-widest text-steel-400 uppercase">
-              Engineering & Technology Solutions
-            </span>
-          </div>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] mb-6">
-            We Build What{" "}
-            <span className="text-brand-500">Engineers</span>{" "}
-            Imagine.
-          </h1>
+          {/* ─── Left: Copy ─── */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="space-y-6"
+          >
+            {/* Kicker */}
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200">
+              <Sparkles className="w-3.5 h-3.5 text-brand-500" />
+              <span className="text-xs font-semibold text-brand-700">
+                Engineering & Technology Solutions
+              </span>
+            </motion.div>
 
-          {/* Subline */}
-          <p className="text-lg sm:text-xl text-steel-400 leading-relaxed max-w-2xl mb-10">
-            MK Electra delivers software, embedded systems, mechanical engineering and 3D
-            manufacturing — under one roof, from idea to production.
-          </p>
+            {/* Headline */}
+            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-black text-ink-900 tracking-tight leading-[1.1]">
+              We Build What{" "}
+              <span className="relative inline-block">
+                <span className="gradient-text">Engineers</span>
+                <motion.span
+                  className="absolute -bottom-1 left-0 h-1 bg-brand-500 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
+                />
+              </span>
+              {" "}Imagine.
+            </motion.h1>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-colors"
-            >
-              Start a Project <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Sub */}
+            <motion.p variants={fadeUp} className="text-lg text-ink-500 leading-relaxed max-w-lg">
+              MK Electra integrates software, embedded hardware, mechanical design and 3D
+              manufacturing — from concept to production-ready product.
+            </motion.p>
 
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-steel-700 hover:border-steel-500 text-steel-200 hover:text-white font-semibold text-sm transition-colors"
-            >
-              View Services
-            </Link>
+            {/* Service badges */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
+              {BADGES.map((b, i) => (
+                <motion.span
+                  key={b}
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 + i * 0.07 }}
+                  className="px-3 py-1 text-xs font-semibold rounded-full bg-surface-1 border border-surface-3 text-ink-600"
+                >
+                  {b}
+                </motion.span>
+              ))}
+            </motion.div>
 
-            <a
-              href={getWhatsAppLink(COMPANY_INFO.phones[0].raw)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-emerald-800/60 hover:border-emerald-600 text-emerald-400 font-semibold text-sm transition-colors"
-            >
-              <MessageSquare className="w-4 h-4" /> WhatsApp Us
-            </a>
-          </div>
+            {/* CTAs */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 pt-2">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm transition-all shadow-md-orange hover:shadow-lg-orange hover:-translate-y-0.5"
+              >
+                Start a Project <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-surface-3 hover:border-brand-300 bg-white hover:bg-brand-50 text-ink-700 font-semibold text-sm transition-all"
+              >
+                Explore Services
+              </Link>
+              <a
+                href={getWhatsAppLink(COMPANY_INFO.phones[0].raw)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-emerald-200 hover:border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm transition-all"
+              >
+                <MessageSquare className="w-4 h-4" /> WhatsApp
+              </a>
+            </motion.div>
 
-          {/* Divider stats */}
-          <div className="mt-16 pt-8 border-t border-steel-800/60 flex flex-wrap gap-10">
-            {[
-              { value: "4", label: "Core Divisions" },
-              { value: "100%", label: "In-house Design & Build" },
-              { value: "Turnkey", label: "Idea to Production" },
-              { value: "B2B & B2C", label: "Wholesale & Retail" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl font-bold text-white font-mono">{stat.value}</p>
-                <p className="text-xs text-steel-500 mt-0.5">{stat.label}</p>
+            {/* Trust points */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 pt-2">
+              {["100% In-House Design", "Idea to Production", "B2B & B2C Ready"].map((pt) => (
+                <div key={pt} className="flex items-center gap-1.5 text-xs text-ink-500">
+                  <CheckCircle className="w-3.5 h-3.5 text-brand-500" />
+                  {pt}
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* ─── Right: Animated Visual Card ─── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="relative hidden lg:block"
+          >
+            {/* Main card */}
+            <div className="relative bg-white rounded-3xl border border-surface-2 shadow-card p-6 space-y-4">
+              {/* Card header */}
+              <div className="flex items-center justify-between pb-3 border-b border-surface-2">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-400" />
+                </div>
+                <span className="text-xs font-mono text-ink-300">MK_SYSTEM_V2</span>
               </div>
-            ))}
-          </div>
+
+              {/* 4 Division tiles */}
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { icon: "💻", title: "Software", color: "bg-orange-50 border-orange-200", badge: "React · Next.js · Python" },
+                  { icon: "🔌", title: "Embedded & IoT", color: "bg-blue-50 border-blue-200", badge: "ESP32 · STM32 · MQTT" },
+                  { icon: "⚙️", title: "Mechanical", color: "bg-slate-50 border-slate-200", badge: "3D CAD · Solidworks" },
+                  { icon: "🖨️", title: "3D Printing", color: "bg-amber-50 border-amber-200", badge: "PLA · PETG · ABS · ASA" },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + i * 0.1 }}
+                    className={`p-4 rounded-xl border ${item.color}`}
+                  >
+                    <span className="text-xl">{item.icon}</span>
+                    <p className="text-sm font-bold text-ink-900 mt-2">{item.title}</p>
+                    <p className="text-[10px] text-ink-400 font-mono mt-1">{item.badge}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Status bar */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="flex items-center justify-between p-3 rounded-xl bg-surface-1 border border-surface-2"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="relative w-2 h-2">
+                    <div className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-ink-700">Engineering Desk Active</span>
+                </div>
+                <span className="text-[10px] text-ink-400 font-mono">Open for inquiries</span>
+              </motion.div>
+            </div>
+
+            {/* Floating badge 1 */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="absolute -top-5 -right-5 bg-white rounded-2xl border border-surface-2 shadow-card px-4 py-2.5 flex items-center gap-2"
+            >
+              <span className="text-base">🏭</span>
+              <div>
+                <p className="text-xs font-bold text-ink-900">Turnkey Production</p>
+                <p className="text-[10px] text-ink-400">Idea → Delivery</p>
+              </div>
+            </motion.div>
+
+            {/* Floating badge 2 */}
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+              className="absolute -bottom-5 -left-5 bg-brand-500 rounded-2xl shadow-md-orange px-4 py-2.5 flex items-center gap-2"
+            >
+              <MessageSquare className="w-4 h-4 text-white" />
+              <div>
+                <p className="text-xs font-bold text-white">WhatsApp Direct</p>
+                <p className="text-[10px] text-brand-200 font-mono">{COMPANY_INFO.phones[0].display}</p>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
+
+        {/* ─── Stat Strip ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          className="mt-16 pt-8 border-t border-surface-2 grid grid-cols-2 sm:grid-cols-4 gap-6"
+        >
+          {[
+            { value: "4", label: "Core Divisions" },
+            { value: "100%", label: "In-House Build" },
+            { value: "B2B + B2C", label: "3D Print Options" },
+            { value: "Turnkey", label: "Idea to Production" },
+          ].map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 + i * 0.1 }}
+            >
+              <p className="text-2xl font-black text-ink-900 font-mono">{s.value}</p>
+              <p className="text-xs text-ink-400 mt-0.5">{s.label}</p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -1,43 +1,70 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const STEPS = [
-  { n: "01", title: "Brief & Discovery", desc: "We align on your requirements, constraints, and success criteria." },
+  { n: "01", title: "Brief & Discovery", desc: "We align on requirements, constraints and success criteria." },
   { n: "02", title: "Feasibility & Scoping", desc: "Technical review, BOM estimation, timeline and milestone agreement." },
-  { n: "03", title: "Design & Prototyping", desc: "CAD models, schematics, wireframes or firmware architecture — built and reviewed with you." },
-  { n: "04", title: "Build & Integration", desc: "Development, manufacturing and assembly with iterative testing at each stage." },
-  { n: "05", title: "Validation & Delivery", desc: "QA testing, documentation and handoff — or ongoing support if required." },
+  { n: "03", title: "Design & Prototyping", desc: "CAD models, schematics, wireframes or firmware architecture — reviewed with you." },
+  { n: "04", title: "Build & Integration", desc: "Development, manufacturing and assembly with iterative testing at every stage." },
+  { n: "05", title: "Validation & Delivery", desc: "QA testing, full documentation and handoff — or ongoing support as needed." },
 ];
 
 export function EngineeringProcess() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
-    <section className="py-24 bg-navy-950">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className="mb-14">
-          <p className="text-xs font-mono tracking-widest text-brand-500 uppercase mb-3">
+    <section ref={ref} className="py-24 bg-white">
+      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-500">
             How We Work
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black text-ink-900 tracking-tight mt-3">
             A clear process, every time.
           </h2>
-        </div>
+          <p className="text-ink-500 mt-3">
+            No surprises. No scope creep. Just structured engineering delivery.
+          </p>
+        </motion.div>
 
         <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-5 top-0 bottom-0 w-px bg-steel-800/80 hidden sm:block" />
+          {/* Vertical connector line */}
+          <motion.div
+            initial={{ height: 0 }}
+            animate={inView ? { height: "100%" } : {}}
+            transition={{ duration: 1.2, delay: 0.3 }}
+            className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-brand-500 via-brand-300 to-brand-100 origin-top hidden sm:block"
+          />
 
-          <div className="space-y-0">
-            {STEPS.map((step, idx) => (
-              <div key={step.n} className="relative flex items-start gap-8 py-7 border-b border-steel-800/40 last:border-0">
-                {/* Number dot */}
-                <div className="relative shrink-0 w-10 h-10 rounded-full bg-navy-900 border border-steel-700 flex items-center justify-center z-10">
-                  <span className="text-xs font-mono font-bold text-brand-500">{step.n}</span>
+          <div className="space-y-3">
+            {STEPS.map((step, i) => (
+              <motion.div
+                key={step.n}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.12 }}
+                className="relative flex items-start gap-6 p-5 rounded-2xl hover:bg-surface-1 transition-colors group"
+              >
+                {/* Circle */}
+                <div className="relative shrink-0 w-12 h-12 rounded-xl bg-white border-2 border-brand-200 group-hover:border-brand-400 group-hover:bg-brand-50 flex items-center justify-center z-10 transition-all">
+                  <span className="text-xs font-mono font-black text-brand-500">{step.n}</span>
                 </div>
 
-                <div className="pt-1.5 pb-2">
-                  <h3 className="text-sm font-semibold text-white mb-1.5">{step.title}</h3>
-                  <p className="text-sm text-steel-400 leading-relaxed max-w-xl">{step.desc}</p>
+                <div className="pt-2">
+                  <h3 className="text-sm font-bold text-ink-900 mb-1 group-hover:text-brand-600 transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-ink-500 leading-relaxed">{step.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

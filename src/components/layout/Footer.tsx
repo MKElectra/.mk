@@ -6,41 +6,39 @@ import { getWhatsAppLink } from "@/lib/utils";
 
 export function Footer() {
   return (
-    <footer className="bg-navy-950 border-t border-steel-800/60">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+    <footer className="bg-ink-900 text-ink-300">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
           {/* Brand */}
-          <div className="md:col-span-1 space-y-4">
-            <div className="flex flex-col">
+          <div className="space-y-5">
+            <div>
               <div className="flex items-center gap-0.5 leading-none">
-                <span className="text-xl font-extrabold text-white tracking-tight">M</span>
-                <span className="text-xl font-extrabold text-brand-500 tracking-tight">K</span>
-                <span className="text-xl font-extrabold text-white tracking-tight ml-1.5">
-                  ELECTRA
-                </span>
+                <span className="text-xl font-black text-white tracking-tight">M</span>
+                <span className="text-xl font-black text-brand-400 tracking-tight">K</span>
+                <span className="w-px h-4 bg-ink-600 mx-2" />
+                <span className="text-xl font-black text-white tracking-tight">ELECTRA</span>
               </div>
-              <div className="h-[2px] w-full bg-brand-500 mt-0.5 rounded-full" />
-              <span className="text-[9px] text-steel-500 font-mono tracking-widest mt-1 leading-none">
+              <div className="h-[2px] bg-brand-500 rounded-full mt-1" />
+              <span className="text-[9px] text-ink-400 font-mono tracking-widest block mt-1">
                 Built on Trust. Powered by Quality.
               </span>
             </div>
 
-            <p className="text-sm text-steel-500 leading-relaxed">
-              Multidisciplinary engineering company — software, embedded systems, mechanical design
-              and 3D manufacturing.
+            <p className="text-sm text-ink-400 leading-relaxed">
+              Multidisciplinary engineering — software, embedded, mechanical and 3D manufacturing.
             </p>
 
-            <div className="space-y-2 pt-2">
+            <div className="space-y-2">
               {COMPANY_INFO.phones.map((phone) => (
                 <a
                   key={phone.raw}
                   href={getWhatsAppLink(phone.raw)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs font-mono text-steel-400 hover:text-emerald-400 transition-colors"
+                  className="flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-colors"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  {phone.display}
+                  <MessageSquare className="w-3.5 h-3.5" /> {phone.display}
                 </a>
               ))}
             </div>
@@ -48,22 +46,18 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-steel-500 mb-5">
-              Services
-            </h4>
-            <ul className="space-y-3 text-sm text-steel-400">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-ink-500 mb-5">Services</h4>
+            <ul className="space-y-2.5 text-sm">
               {[
-                { label: "Software Engineering", href: "/services/software" },
-                { label: "Embedded & IoT", href: "/services/embedded-iot" },
-                { label: "Mechanical Engineering", href: "/services/mechanical" },
-                { label: "Industrial Automation", href: "/services/industrial-automation" },
-                { label: "AI & Computer Vision", href: "/services/ai-ml" },
-                { label: "Product Development", href: "/services/product-development" },
+                { l: "Software Engineering", h: "/services/software" },
+                { l: "Embedded & IoT", h: "/services/embedded-iot" },
+                { l: "Mechanical Engineering", h: "/services/mechanical" },
+                { l: "Industrial Automation", h: "/services/industrial-automation" },
+                { l: "AI & Computer Vision", h: "/services/ai-ml" },
+                { l: "Product Development", h: "/services/product-development" },
               ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
+                <li key={link.h}>
+                  <Link href={link.h} className="hover:text-white transition-colors">{link.l}</Link>
                 </li>
               ))}
             </ul>
@@ -71,22 +65,18 @@ export function Footer() {
 
           {/* 3D Printing */}
           <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-steel-500 mb-5">
-              3D Printing
-            </h4>
-            <ul className="space-y-3 text-sm text-steel-400">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-ink-500 mb-5">3D Printing</h4>
+            <ul className="space-y-2.5 text-sm">
               {[
-                { label: "Overview", href: "/3d-printing" },
-                { label: "Wholesale / B2B", href: "/3d-printing/wholesale" },
-                { label: "Retail / B2C", href: "/3d-printing/retail" },
-                { label: "Rapid Prototyping", href: "/3d-printing/prototyping" },
-                { label: "Custom Parts", href: "/3d-printing/custom-parts" },
-                { label: "Get a Quote", href: "/quote" },
+                { l: "Overview", h: "/3d-printing" },
+                { l: "Wholesale / B2B", h: "/3d-printing/wholesale" },
+                { l: "Retail / B2C", h: "/3d-printing/retail" },
+                { l: "Rapid Prototyping", h: "/3d-printing/prototyping" },
+                { l: "Custom Parts", h: "/3d-printing/custom-parts" },
+                { l: "Get a Quote", h: "/quote" },
               ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
+                <li key={link.h}>
+                  <Link href={link.h} className="hover:text-white transition-colors">{link.l}</Link>
                 </li>
               ))}
             </ul>
@@ -94,41 +84,31 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-steel-500 mb-5">
-              Company
-            </h4>
-            <ul className="space-y-3 text-sm text-steel-400">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-ink-500 mb-5">Company</h4>
+            <ul className="space-y-2.5 text-sm">
               {[
-                { label: "About", href: "/about" },
-                { label: "Projects", href: "/projects" },
-                { label: "Products", href: "/products" },
-                { label: "Industries", href: "/industries" },
-                { label: "Insights", href: "/insights" },
-                { label: "Contact", href: "/contact" },
+                { l: "About", h: "/about" },
+                { l: "Projects", h: "/projects" },
+                { l: "Products", h: "/products" },
+                { l: "Industries", h: "/industries" },
+                { l: "Insights", h: "/insights" },
+                { l: "Contact", h: "/contact" },
               ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
+                <li key={link.h}>
+                  <Link href={link.h} className="hover:text-white transition-colors">{link.l}</Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-steel-800/60 flex flex-wrap items-center justify-between gap-4 text-xs text-steel-600">
+        {/* Bottom */}
+        <div className="pt-8 border-t border-ink-700 flex flex-wrap items-center justify-between gap-4 text-xs text-ink-500">
           <p>© {new Date().getFullYear()} MK Electra. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="hover:text-steel-400 transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-steel-400 transition-colors">
-              Terms
-            </Link>
-            <Link href="/cookie-policy" className="hover:text-steel-400 transition-colors">
-              Cookies
-            </Link>
+            {[{ l: "Privacy", h: "/privacy-policy" }, { l: "Terms", h: "/terms" }, { l: "Cookies", h: "/cookie-policy" }].map((l) => (
+              <Link key={l.h} href={l.h} className="hover:text-ink-300 transition-colors">{l.l}</Link>
+            ))}
           </div>
         </div>
       </div>
