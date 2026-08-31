@@ -2,175 +2,155 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { NAVIGATION_LINKS, COMPANY_INFO } from "@/data/company";
-import { MegaMenu } from "./MegaMenu";
-import { MobileNav } from "./MobileNav";
-import { Logo } from "@/components/ui/Logo";
-import { Button } from "@/components/ui/Button";
+import { Menu, X, MessageSquare } from "lucide-react";
+import { COMPANY_INFO } from "@/data/company";
 import { getWhatsAppLink } from "@/lib/utils";
-import {
-  ChevronDown,
-  Menu,
-  MessageSquare,
-  Sparkles,
-  PhoneCall,
-  ShieldCheck,
-} from "lucide-react";
+
+const NAV_LINKS = [
+  { label: "Services", href: "/services" },
+  { label: "3D Printing", href: "/3d-printing" },
+  { label: "Projects", href: "/projects" },
+  { label: "Products", href: "/products" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+];
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeMegaMenu, setActiveMegaMenu] = useState<"services" | "3d-printing" | null>(null);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 15) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-          isScrolled
-            ? "bg-navy-950/95 backdrop-blur-lg border-b border-steel-800/80 shadow-2xl py-3"
-            : "bg-navy-950/70 backdrop-blur-md border-b border-steel-800/50 py-4"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+          scrolled
+            ? "bg-navy-950/95 backdrop-blur-lg border-b border-steel-800/80"
+            : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
-            {/* Brand Logo with Orange Lightning Emblem & Official Tagline */}
-            <div onMouseEnter={() => setActiveMegaMenu(null)}>
-              <Logo size="md" showTagline={true} />
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+          {/* Logo */}
+          <Link href="/" className="flex flex-col group shrink-0">
+            <div className="flex items-center gap-0.5 leading-none">
+              <span className="text-xl font-extrabold text-white tracking-tight">M</span>
+              <span className="text-xl font-extrabold text-brand-500 tracking-tight">K</span>
+              <span className="text-xl font-extrabold text-white tracking-tight ml-1.5">
+                ELECTRA
+              </span>
             </div>
+            <div className="h-[2px] w-full bg-brand-500 mt-0.5 rounded-full" />
+            <span className="text-[9px] text-steel-400 font-mono tracking-widest mt-0.5 leading-none">
+              Built on Trust. Powered by Quality.
+            </span>
+          </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
-              {NAVIGATION_LINKS.map((link) => {
-                if (link.hasMegaMenu) {
-                  const isOpen = activeMegaMenu === link.divisionKey;
-                  return (
-                    <div
-                      key={link.href}
-                      className="relative"
-                      onMouseEnter={() =>
-                        setActiveMegaMenu(link.divisionKey as "services" | "3d-printing")
-                      }
-                    >
-                      <Link
-                        href={link.href}
-                        className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-all ${
-                          isOpen
-                            ? "text-brand-400 bg-navy-900 border border-brand-500/30"
-                            : "text-steel-300 hover:text-white hover:bg-navy-900/60"
-                        }`}
-                      >
-                        <span>{link.label}</span>
-                        <ChevronDown
-                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                            isOpen ? "transform rotate-180 text-brand-400" : "text-steel-400"
-                          }`}
-                        />
-                      </Link>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-steel-400 hover:text-white transition-colors font-medium"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-                      {/* Mega Menu Dropdown */}
-                      {isOpen && (
-                        <div onMouseLeave={() => setActiveMegaMenu(null)}>
-                          <MegaMenu
-                            divisionKey={link.divisionKey as "services" | "3d-printing"}
-                            onClose={() => setActiveMegaMenu(null)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onMouseEnter={() => setActiveMegaMenu(null)}
-                    className="px-3 py-2 text-sm font-medium text-steel-300 hover:text-white hover:bg-navy-900/60 rounded-lg transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Right Action CTAs */}
-            <div
-              className="hidden lg:flex items-center gap-3"
-              onMouseEnter={() => setActiveMegaMenu(null)}
+          {/* Right CTAs */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <a
+              href={getWhatsAppLink(COMPANY_INFO.phones[0].raw)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition-colors"
             >
-              {/* Direct WhatsApp Call Pill */}
-              <a
-                href={getWhatsAppLink(COMPANY_INFO.phones[0].raw)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden xl:inline-flex items-center gap-2 px-3 py-2 text-xs font-mono rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-all group"
-                title="Direct WhatsApp Engineering Desk"
-              >
-                <MessageSquare className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                <span>+91 8220660081</span>
-              </a>
+              <MessageSquare className="w-3.5 h-3.5" />
+              {COMPANY_INFO.phones[0].display}
+            </a>
 
-              <Button
-                href="/quote"
-                variant="outline"
-                size="sm"
-                className="font-semibold text-xs border-steel-700 hover:border-brand-400 hover:text-brand-300"
-              >
-                Instant RFQ
-              </Button>
-
-              <Button
-                href="/contact"
-                variant="primary"
-                size="sm"
-                className="text-xs font-bold bg-brand-500 hover:bg-brand-600 shadow-brand-500/30 text-white"
-              >
-                Start a Project
-              </Button>
-            </div>
-
-            {/* Mobile Hamburger Button */}
-            <div className="flex lg:hidden items-center gap-2">
-              <a
-                href={getWhatsAppLink(COMPANY_INFO.phones[0].raw)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-400"
-                aria-label="WhatsApp Us"
-              >
-                <MessageSquare className="w-5 h-5" />
-              </a>
-
-              <button
-                type="button"
-                onClick={() => setIsMobileNavOpen(true)}
-                className="p-2 rounded-lg text-steel-300 hover:text-white bg-navy-900 border border-steel-700"
-                aria-label="Open mobile menu"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-            </div>
+            <Link
+              href="/contact"
+              className="px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition-colors"
+            >
+              Get in Touch
+            </Link>
           </div>
+
+          {/* Mobile toggle */}
+          <button
+            className="lg:hidden p-2 text-steel-400 hover:text-white transition-colors"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
-      <MobileNav
-        isOpen={isMobileNavOpen}
-        onClose={() => setIsMobileNavOpen(false)}
-      />
+      {/* Mobile Nav */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="absolute inset-0 bg-navy-950/80 backdrop-blur-md"
+            onClick={() => setMobileOpen(false)}
+          />
+          <div className="absolute right-0 top-0 bottom-0 w-72 bg-navy-900 border-l border-steel-800 flex flex-col">
+            <div className="flex items-center justify-between p-5 border-b border-steel-800">
+              <span className="text-sm font-bold text-white">MK ELECTRA</span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-1.5 text-steel-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 p-5 space-y-1">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2.5 px-3 text-sm font-medium text-steel-300 hover:text-white hover:bg-navy-800 rounded-lg transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="p-5 border-t border-steel-800 space-y-3">
+              {COMPANY_INFO.phones.map((phone) => (
+                <a
+                  key={phone.raw}
+                  href={getWhatsAppLink(phone.raw)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-emerald-400 font-mono"
+                >
+                  <MessageSquare className="w-4 h-4" /> {phone.display}
+                </a>
+              ))}
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-4 py-2.5 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition-colors"
+              >
+                Get in Touch
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Spacer for fixed header */}
+      <div className="h-16" />
     </>
   );
 }

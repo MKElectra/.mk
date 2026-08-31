@@ -1,76 +1,62 @@
 import React from "react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import {
-  Layers,
-  Sliders,
-  CheckCircle,
-  Cpu,
-  RefreshCw,
-  ShieldCheck,
-} from "lucide-react";
+import { ShieldCheck, Layers, Zap } from "lucide-react";
+
+const PILLARS = [
+  {
+    icon: <Layers className="w-5 h-5 text-brand-500" />,
+    title: "Integrated Under One Roof",
+    description:
+      "Software, hardware, mechanical and manufacturing teams work together. No handoffs to external vendors. Faster delivery, tighter quality control.",
+  },
+  {
+    icon: <ShieldCheck className="w-5 h-5 text-brand-500" />,
+    title: "Engineering First, Always",
+    description:
+      "Every decision starts with what's technically correct. We don't oversell or underdeliver. Honest scoping, honest timelines.",
+  },
+  {
+    icon: <Zap className="w-5 h-5 text-brand-500" />,
+    title: "Idea to Production",
+    description:
+      "From a napkin sketch to a deployable product. We handle design, prototyping, firmware, software and batch manufacturing end-to-end.",
+  },
+];
 
 export function WhyMKElectra() {
-  const cards = [
-    {
-      icon: <Layers className="w-6 h-6 text-cyan-400" />,
-      title: "Multi-Disciplinary",
-      description: "Multiple engineering capabilities under one roof — software, firmware, CAD, and 3D manufacturing unified seamlessly.",
-    },
-    {
-      icon: <Sliders className="w-6 h-6 text-brand-400" />,
-      title: "Custom Built",
-      description: "Solutions designed around actual client requirements, operating environments, and functional constraints.",
-    },
-    {
-      icon: <RefreshCw className="w-6 h-6 text-teal-400" />,
-      title: "End-to-End",
-      description: "From initial concept definition and architecture through rapid prototyping, testing, batch production, and deployment.",
-    },
-    {
-      icon: <Cpu className="w-6 h-6 text-purple-400" />,
-      title: "Engineering First",
-      description: "Practical, robust solutions engineered for real-world operational reliability, thermal stability, and noise tolerance.",
-    },
-    {
-      icon: <CheckCircle className="w-6 h-6 text-amber-400" />,
-      title: "Flexible",
-      description: "Agile support spanning one-off prototypes, individual maker components, startup MVPs, and enterprise-scale production runs.",
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6 text-emerald-400" />,
-      title: "Quality Driven",
-      description: "Focused on uncompromising reliability, dimensional consistency, code maintainability, and thorough quality inspection.",
-    },
-  ];
-
   return (
-    <section className="py-20 lg:py-28 bg-navy-900 relative overflow-hidden border-b border-steel-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading
-          badge="WHY MK ELECTRA"
-          kicker="OUR VALUE PROPOSITION"
-          title="Engineered for Precision, Speed and Scale"
-          subtitle="We eliminate fragmented communication between disparate design studios, software agencies, and machine shops."
-          align="center"
-        />
+    <section className="py-24 bg-navy-950">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left */}
+          <div>
+            <p className="text-xs font-mono tracking-widest text-brand-500 uppercase mb-3">
+              Why MK Electra
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+              Built on Trust.
+              <br />
+              Powered by Quality.
+            </h2>
+            <p className="mt-4 text-steel-400 text-base leading-relaxed max-w-md">
+              Most engineering problems need more than one discipline. We built MK Electra to solve
+              them end-to-end — without the coordination overhead of working with multiple agencies.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {cards.map((card, idx) => (
-            <div
-              key={idx}
-              className="p-8 rounded-2xl bg-navy-950 border border-steel-800 hover:border-brand-500/50 hover:bg-navy-900/60 transition-all duration-300 group shadow-lg corner-crosshairs"
-            >
-              <div className="w-12 h-12 rounded-xl bg-navy-900 border border-steel-700 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-cyan-400 transition-all">
-                {card.icon}
+          {/* Right: Pillars */}
+          <div className="space-y-8">
+            {PILLARS.map((pillar, idx) => (
+              <div key={idx} className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  {pillar.icon}
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white mb-1.5">{pillar.title}</h3>
+                  <p className="text-sm text-steel-400 leading-relaxed">{pillar.description}</p>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors mb-2.5">
-                {card.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-steel-400 leading-relaxed">
-                {card.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
